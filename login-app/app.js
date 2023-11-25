@@ -33,10 +33,10 @@ const server = http.createServer((req, res) => {
 
     req.on('end', () => {
       const formData = queryString.parse(body);
-      const email = formData.email.trim().toLowerCase(); // Chuẩn hóa email
-      const password = formData.password.trim(); // Chuẩn hóa password
+      const email = formData.email // Chuẩn hóa email
+      const password = formData.password; // Chuẩn hóa password
 
-      const student = students.find(s => s.email === email && s.password === password);
+      const student = students.find(s => s.email == email && s.password == password);
       if (student) {
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ success: true, student }));
