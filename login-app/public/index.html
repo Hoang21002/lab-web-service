@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Login</title>
+  </head>
+  <body>
+    <form id="loginForm" method="post" action="/login">
+      <input
+        type="email"
+        name="email"
+        id="emailInput"
+        placeholder="Email"
+        required
+      /><br />
+      <input
+        type="password"
+        name="password"
+        id="passwordInput"
+        placeholder="Password"
+        required
+      /><br />
+      <button type="submit">Login</button>
+    </form>
+
+    <script>
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const email = document.getElementById("emailInput").value.trim(); // Xóa khoảng trắng không mong muốn
+          const password = document
+            .getElementById("passwordInput")
+            .value.trim(); // Xóa khoảng trắng không mong muốn
+
+          fetch("/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: `email=${encodeURIComponent(
+              email
+            )}&password=${encodeURIComponent(password)}`,
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.success) {
+                alert(
+                  `Welcome, ${data.student.name}! Your score is ${data.student.score}.`
+                );
+              } else {
+                alert(data.message);
+              }
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            });
+        });
+    </script>
+  </body>
+</html>
